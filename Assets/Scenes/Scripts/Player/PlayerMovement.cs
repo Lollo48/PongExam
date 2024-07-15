@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     PlayerInputManager _playerInput;
     [SerializeField] private float _speed;
     Rigidbody _rigidbody;
 
     public static event Action OnMove;
-    
+
+
     private void Awake()
     {
         _playerInput = new PlayerInputManager(this);
@@ -31,10 +33,13 @@ public class PlayerMovement : MonoBehaviour
         _playerInput.DisabledInput();
     }
 
+    [Client]
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
         OnMove?.Invoke();
     }
+
 
     public void Move()
     {
