@@ -7,24 +7,44 @@ public class PongBall : NetworkBehaviour
 {
     Rigidbody _rigidbody;
     [SerializeField] private float _speed;
+    private float _cachedSpeed;
 
-    public override void OnStartServer()
+
+    private void Awake()
     {
-        base.OnStartServer();
+        _rigidbody = GetComponent<Rigidbody>();
+        _cachedSpeed = _speed;
+    }
+
+    private void OnEnable()
+    {
         _rigidbody.velocity = Vector2.right * _speed;
     }
+
 
     float HitFactor(Vector2 ballPos, Vector2 racketPos, float racketHeight)
     {
         return (ballPos.y - racketPos.y) / racketHeight;
     }
 
-    // only call this on server
-    [ServerCallback]
+
     void OnCollisionEnter(Collision col)
     {
+
+        if(col.gameObject.layer == 6)
+        {
+           
+            if (transform.position.x < 0) ScoreManager.OnScoreUpdate?.Invoke(FootballGoalPosition.left);
+            else ScoreManager.OnScoreUpdate?.Invoke(FootballGoalPosition.right);
+            ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
+
+
+        }
+        
+
         if (col.transform.GetComponent<PongPlayer>())
         {
+            _cachedSpeed += 3f;
             // Calculate y direction via hit Factor
             float y = HitFactor(transform.position,
                                 col.transform.position,
@@ -34,7 +54,9 @@ public class PongBall : NetworkBehaviour
 
             Vector2 dir = new Vector2(x, y).normalized;
 
-            _rigidbody.velocity = dir * _speed;
+            _rigidbody.velocity = dir * _cachedSpeed;
+
+
         }
     }
 

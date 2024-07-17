@@ -10,20 +10,17 @@ public class PongPlayer : NetworkBehaviour
 
     public static Action OnUpdateInformation;
 
-    #region Server
 
-
-    #endregion
 
     #region Client
 
 
-    //client quando si connette viene chiamata su tutti i player in scena 
     public override void OnStartClient()
     {
 
         if (!isClientOnly) return;
         ((PongNetworkManager)NetworkManager.singleton).PongPlayers.Add(this);
+
         OnUpdateInformation?.Invoke();
 
     }
@@ -34,12 +31,12 @@ public class PongPlayer : NetworkBehaviour
         
         if (!isClientOnly) return;
         ((PongNetworkManager)NetworkManager.singleton).PongPlayers.Remove(this);
-        OnUpdateInformation?.Invoke();
 
+        OnUpdateInformation?.Invoke();
         PongNetworkManager.OnServerDisconnected?.Invoke();
 
-
     }
+
     #endregion
 
 

@@ -28,7 +28,7 @@ public class LobbyMenu : NetworkBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            playerNameTexts[i].text = players[i].name;
+            playerNameTexts[i].text = ($"Player {i + 1}");
         }
 
         for (int i = players.Count; i < playerNameTexts.Length; i++)
@@ -55,14 +55,12 @@ public class LobbyMenu : NetworkBehaviour
         else
         {
             NetworkManager.singleton.StopClient();
+            
+
         }
     }
 
 
-    public void StartClient()
-    {
-        NetworkManager.singleton.StartClient();
-        PongPlayer.OnUpdateInformation?.Invoke();
+    public void StartClient() => NetworkManager.singleton.StartClient();
 
-    }
 }

@@ -16,21 +16,20 @@ public class PlayerMovement : NetworkBehaviour
     private void Awake()
     {
         _playerInput = new PlayerInputManager(this);
-    }
-
-    private void Start()
-    {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+
     private void OnEnable()
     {
-        _playerInput.EnabledInput();
+        OnGameStarted.OnGameStart += _playerInput.EnabledInput;
+        
+        
     }
 
     private void OnDisable()
     {
-        _playerInput.DisabledInput();
+        OnGameStarted.OnGameStart -= _playerInput.EnabledInput;
     }
 
     [Client]

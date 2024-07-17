@@ -9,7 +9,7 @@ public class SetHostName : MonoBehaviour
 
     private void Awake()
     {
-        PongNetworkManager.singleton.networkAddress = "localhost";
+        addressInput.text = "localhost";
     }
 
     public void NewHostName()

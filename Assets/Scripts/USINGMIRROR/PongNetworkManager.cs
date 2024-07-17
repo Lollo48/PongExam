@@ -8,6 +8,8 @@ public class PongNetworkManager : NetworkManager
 {
     public List<PongPlayer> PongPlayers;
 
+    GameObject ball;
+
     public static Action OnServerDisconnected;
 
     public override void Awake()
@@ -16,10 +18,23 @@ public class PongNetworkManager : NetworkManager
         networkAddress = "localhost";
     }
 
+    public void OnEnable()
+    {
+        OnGameStarted.OnGameStart += BallSpawn;
+    }
+
+    private void OnDisable()
+    {
+        OnGameStarted.OnGameStart -= BallSpawn;
+    }
+
+
+    #region Server
     public override void OnStartServer()
     {
         base.OnStartServer();
         PongPlayers =  new List<PongPlayer>();
+        
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
@@ -30,6 +45,7 @@ public class PongNetworkManager : NetworkManager
         PongPlayers.Add(pongPlayer);
 
         PongPlayer.OnUpdateInformation?.Invoke();
+
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -44,7 +60,8 @@ public class PongNetworkManager : NetworkManager
         base.OnServerDisconnect(conn);
     }
 
-    
+    #endregion
+
 
     #region Client
 
@@ -54,5 +71,16 @@ public class PongNetworkManager : NetworkManager
     }
 
     #endregion
+
+
+    [Server]
+    private void BallSpawn()
+    {
+        ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
+        NetworkServer.Spawn(ball);
+    }
+
+    [Server]
+    public void DestroyBall() => Destroy(ball);
 
 }
