@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 
 public class OnPreGameStarted : StateBase<FlowGameManager>
 {
@@ -20,7 +21,8 @@ public class OnPreGameStarted : StateBase<FlowGameManager>
     public override void OnEnter(FlowGameManager context)
     {
         base.OnEnter(context);
-        _timer = 5;
+        _timer = 2;
+
         OnPreGameStart?.Invoke();
     }
 
@@ -36,7 +38,7 @@ public class OnPreGameStarted : StateBase<FlowGameManager>
 
         if (_timer <= 0)
         {
-            FlowGameManager.FlowGame.ChangeState(context.OnGameStarted);
+            context.FlowGame.ChangeState(context.OnGameStarted);
         }
     }
 

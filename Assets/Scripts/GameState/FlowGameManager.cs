@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlowGameManager : MonoBehaviour
 {
-    public static StatesMachine<FlowGameManager> FlowGame;
+    public StatesMachine<FlowGameManager> FlowGame;
 
 
     #region States

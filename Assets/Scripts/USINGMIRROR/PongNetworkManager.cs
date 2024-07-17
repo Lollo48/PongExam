@@ -73,14 +73,13 @@ public class PongNetworkManager : NetworkManager
     #endregion
 
 
-    [Server]
+    
     private void BallSpawn()
     {
         ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
         NetworkServer.Spawn(ball);
     }
 
-    [Server]
     public void DestroyBall() => Destroy(ball);
 
 }
