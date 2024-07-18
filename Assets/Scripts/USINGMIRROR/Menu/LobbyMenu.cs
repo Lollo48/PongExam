@@ -40,7 +40,7 @@ public class LobbyMenu : NetworkBehaviour
             playerNameTexts[i].text = "Waiting For Player...";
         }
 
-        if (players.Count >= 1)
+        if (players.Count >= 2)
             startGameButton.interactable = true;
     }
 

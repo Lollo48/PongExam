@@ -47,7 +47,6 @@ public class PongNetworkManager : NetworkManager
 
         pongPlayer.SetDisplayName($"Player {PongPlayers.Count}");
 
-
         PongPlayer.OnUpdateInformation?.Invoke();
 
     }
