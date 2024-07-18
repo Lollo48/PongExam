@@ -7,7 +7,7 @@ using Mirror;
 public class OnGameStarted : StateBase<FlowGameManager>
 {
 
-    public static event Action OnGameStart;
+    public static Action OnGameStart;
     public OnGameStarted(string stateID, StatesMachine<FlowGameManager> statesMachine) : base(stateID, statesMachine)
     {
 
@@ -17,7 +17,6 @@ public class OnGameStarted : StateBase<FlowGameManager>
     public override void OnEnter(FlowGameManager contex)
     {
         base.OnEnter(contex);
-
         OnGameStart?.Invoke();
     }
 

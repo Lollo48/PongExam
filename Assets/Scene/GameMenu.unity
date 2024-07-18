@@ -473,6 +473,18 @@ PrefabInstance:
       propertyPath: offlineScene
       value: Assets/Scene/GameMenu.unity
       objectReference: {fileID: 0}
+    - target: {fileID: 2835710101627842573, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
+      propertyPath: spawnPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2835710101627842573, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
+      propertyPath: spawnPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4841904736852345044, guid: 2c2af1a3d63646b4b973d24c061c6085, type: 3}
+    - target: {fileID: 2835710101627842573, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
+      propertyPath: spawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4841904736852345044, guid: 7d6e5be9bc8747a4dba984246a7aae40, type: 3}
     - target: {fileID: 4487644966793916470, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
       propertyPath: m_Name
       value: NetworkManager

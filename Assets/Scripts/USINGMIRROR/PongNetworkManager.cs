@@ -62,6 +62,10 @@ public class PongNetworkManager : NetworkManager
         OnServerDisconnected?.Invoke();
 
         base.OnServerDisconnect(conn);
+
+
+        if (ball == null) return;
+            DestroyBall();
     }
 
     #endregion
@@ -71,25 +75,11 @@ public class PongNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
-        PongPlayers.Clear();
-        
+        PongPlayers.Clear(); 
     }
 
     #endregion
 
-
-    [Server]
-    private void BallSpawn()
-    {
-        ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
-        NetworkServer.Spawn(ball);
-    }
-
-    [Server]
-    public void DestroyBall() => Destroy(ball);
-
-
-    
     public void RestartLobby()
     {
         if (NetworkServer.active && NetworkClient.isConnected) StopHost();
@@ -98,4 +88,31 @@ public class PongNetworkManager : NetworkManager
     }
 
 
+    #region Ball 
+    [Server]
+    private void BallSpawn()
+    {
+        ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
+        NetworkServer.Spawn(ball);
+    }
+    
+    public void DestroyBall() => Destroy(ball);
+
+
+    [Server]
+    public void ResetBallPosition()
+    {
+        ball.SetActive(false);
+        ball.transform.position = new Vector3(0f, BallRandomPosition(), 0f);
+        ball.SetActive(true);
+    }
+ 
+    
+    private float BallRandomPosition()
+    {
+        float c = 0;
+        return c = UnityEngine.Random.Range(-7, 9);
+    }
+
+    #endregion
 }

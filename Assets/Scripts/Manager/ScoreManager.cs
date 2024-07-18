@@ -33,27 +33,26 @@ public class ScoreManager : NetworkBehaviour
         OnScoreUpdate -= UpdateScore;
     }
 
+
     public void UpdateScore(FootballGoalPosition goalPosition)
     {
-       
-
         if (goalPosition == FootballGoalPosition.left) _leftScore++;
         else _rightScore++;
 
-        if (_leftScore == 5)
+        if (_leftScore == 10)
         {
             _winner = 2;
             GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
+            ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
         }
-        else if( _rightScore == 5)
+        else if (_rightScore == 10)
         {
             _winner = 1;
             GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
+            ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
         }
-        else
-        {
-            GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameStarted); 
-        }
+        else GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameStarted);
+
     }
 
    
