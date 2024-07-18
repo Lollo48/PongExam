@@ -135,6 +135,18 @@ PrefabInstance:
       propertyPath: sceneId
       value: 2319508381
       objectReference: {fileID: 0}
+    - target: {fileID: 3102185472213260603, guid: 967a9c396962e6b42b9c3f6e2bbbd195, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1879880885}
+    - target: {fileID: 3102185472213260603, guid: 967a9c396962e6b42b9c3f6e2bbbd195, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: RestartLobby
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102185472213260603, guid: 967a9c396962e6b42b9c3f6e2bbbd195, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: PongNetworkManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4160136649655528739, guid: 967a9c396962e6b42b9c3f6e2bbbd195, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -346,6 +358,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1879880885 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2835710101627842573, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
+  m_PrefabInstance: {fileID: 2127679590}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 304f85e1309ac724a81e9a89a11cc773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1922065558
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,6 +469,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2835710101627842573, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
+      propertyPath: offlineScene
+      value: Assets/Scene/GameMenu.unity
+      objectReference: {fileID: 0}
     - target: {fileID: 4487644966793916470, guid: 458df2054b20f27469d1f54fe4893958, type: 3}
       propertyPath: m_Name
       value: NetworkManager

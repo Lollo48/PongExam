@@ -6,7 +6,7 @@ using Mirror;
 
 public class OnGameFinished : StateBase<FlowGameManager>
 {
-    public static event Action OnGameFinish;
+    public static Action OnGameFinish;
 
 
     public OnGameFinished(string stateID, StatesMachine<FlowGameManager> statesMachine) : base(stateID, statesMachine)
@@ -18,8 +18,21 @@ public class OnGameFinished : StateBase<FlowGameManager>
     public override void OnEnter(FlowGameManager context)
     {
         base.OnEnter(context);
-        OnGameFinish?.Invoke();
-        NetworkManager.singleton.StopHost();
+        
+    }
+
+    public override void OnUpdate(FlowGameManager context)
+    {
+        base.OnUpdate(context);
 
     }
+
+
+    public override void OnExit(FlowGameManager context)
+    {
+        base.OnExit(context);
+
+    }
+
+
 }

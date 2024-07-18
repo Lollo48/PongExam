@@ -17,6 +17,7 @@ public class OnGameStarted : StateBase<FlowGameManager>
     public override void OnEnter(FlowGameManager contex)
     {
         base.OnEnter(contex);
+
         OnGameStart?.Invoke();
     }
 

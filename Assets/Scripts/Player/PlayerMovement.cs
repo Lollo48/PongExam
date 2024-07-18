@@ -22,14 +22,12 @@ public class PlayerMovement : NetworkBehaviour
 
     private void OnEnable()
     {
-        OnGameStarted.OnGameStart += _playerInput.EnabledInput;
-        
-        
+        _playerInput.EnabledInput();
     }
 
     private void OnDisable()
     {
-        OnGameStarted.OnGameStart -= _playerInput.EnabledInput;
+        _playerInput.DisabledInput();
     }
 
     [Client]

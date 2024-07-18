@@ -21,8 +21,7 @@ public class OnPreGameStarted : StateBase<FlowGameManager>
     public override void OnEnter(FlowGameManager context)
     {
         base.OnEnter(context);
-        _timer = 2;
-
+        _timer = 5;
         OnPreGameStart?.Invoke();
     }
 

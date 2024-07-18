@@ -18,7 +18,10 @@ public class PongBall : NetworkBehaviour
 
     private void OnEnable()
     {
-        _rigidbody.velocity = Vector2.right * _speed;
+        float randomDirection = Random.Range(-1, 1);
+        if (randomDirection == 0)
+            randomDirection = 1;
+        _rigidbody.velocity = Vector3.left * randomDirection * _speed;
     }
 
 
@@ -28,6 +31,7 @@ public class PongBall : NetworkBehaviour
     }
 
 
+    [ServerCallback]
     void OnCollisionEnter(Collision col)
     {
 
@@ -36,6 +40,7 @@ public class PongBall : NetworkBehaviour
            
             if (transform.position.x < 0) ScoreManager.OnScoreUpdate?.Invoke(FootballGoalPosition.left);
             else ScoreManager.OnScoreUpdate?.Invoke(FootballGoalPosition.right);
+
             ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
 
 

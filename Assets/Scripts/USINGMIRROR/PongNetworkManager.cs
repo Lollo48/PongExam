@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 
+
 public class PongNetworkManager : NetworkManager
 {
     public List<PongPlayer> PongPlayers;
@@ -34,7 +35,7 @@ public class PongNetworkManager : NetworkManager
     {
         base.OnStartServer();
         PongPlayers =  new List<PongPlayer>();
-        
+
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
@@ -43,6 +44,9 @@ public class PongNetworkManager : NetworkManager
 
         PongPlayer pongPlayer = conn.identity.GetComponent<PongPlayer>();
         PongPlayers.Add(pongPlayer);
+
+        pongPlayer.SetDisplayName($"Player {PongPlayers.Count}");
+
 
         PongPlayer.OnUpdateInformation?.Invoke();
 
@@ -68,18 +72,30 @@ public class PongNetworkManager : NetworkManager
     public override void OnStopClient()
     {
         PongPlayers.Clear();
+        
     }
 
     #endregion
 
 
-    
+    [Server]
     private void BallSpawn()
     {
         ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
         NetworkServer.Spawn(ball);
     }
 
+    [Server]
     public void DestroyBall() => Destroy(ball);
+
+
+    
+    public void RestartLobby()
+    {
+        if (NetworkServer.active && NetworkClient.isConnected) StopHost();
+        else StopClient();
+
+    }
+
 
 }

@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
     private void OnEnable()
     {
         PongNetworkManager.OnServerDisconnected += SetMenuPanelActive;
+        
     }
 
     private void OnDisable()

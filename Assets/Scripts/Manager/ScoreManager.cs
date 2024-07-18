@@ -4,14 +4,24 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : NetworkBehaviour
 {
-    [SerializeField] private int _leftScore;
-    [SerializeField] private int _rightScore;
+    [SyncVar (hook = nameof (UpdatedScore))]
+    private int _leftScore;
+
+    [SyncVar(hook = nameof(UpdatedScore))]
+    private int _rightScore;
+
+    [SyncVar(hook = nameof (SetWinner))]
+    private int _winner;
+
 
     public static Action<FootballGoalPosition> OnScoreUpdate;
 
     public static event Action<int, int> OnScoreUpdated;
+
+    public static event Action<int,int> OnSetWinner;
+
 
     private void OnEnable()
     {
@@ -30,15 +40,26 @@ public class ScoreManager : MonoBehaviour
         if (goalPosition == FootballGoalPosition.left) _leftScore++;
         else _rightScore++;
 
-        //if(_leftScore == 10 || _rightScore == 10) //FlowGameManager.FlowGame.ChangeState(FlowGameManager.FlowGame.Contex.OnGameFinished);
-        //else //FlowGameManager.FlowGame.ChangeState(FlowGameManager.FlowGame.Contex.OnPreGameStarted);
-
-        UpdatedScore();
+        if (_leftScore == 5)
+        {
+            _winner = 2;
+            GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
+        }
+        else if( _rightScore == 5)
+        {
+            _winner = 1;
+            GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
+        }
+        else
+        {
+            GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameStarted); 
+        }
     }
 
+   
+    private void UpdatedScore(int a, int b) => OnScoreUpdated?.Invoke(_leftScore, _rightScore);
 
-    private void UpdatedScore() => OnScoreUpdated?.Invoke(_leftScore, _rightScore);
-
+    private void SetWinner(int a, int b) => OnSetWinner?.Invoke(_winner,default);
 
 
 }

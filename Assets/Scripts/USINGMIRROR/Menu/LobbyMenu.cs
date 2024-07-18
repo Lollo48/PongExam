@@ -10,16 +10,20 @@ public class LobbyMenu : NetworkBehaviour
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[2];
 
-
     private void OnEnable()
     {
+        
+
         PongPlayer.OnUpdateInformation += ClientHandleInfoUpdated;
+
     }
 
     private void OnDisable()
     {
         PongPlayer.OnUpdateInformation -= ClientHandleInfoUpdated;
+
     }
+
 
     private void ClientHandleInfoUpdated()
     {
@@ -28,7 +32,7 @@ public class LobbyMenu : NetworkBehaviour
 
         for (int i = 0; i < players.Count; i++)
         {
-            playerNameTexts[i].text = ($"Player {i + 1}");
+            playerNameTexts[i].text = players[i].GetName();
         }
 
         for (int i = players.Count; i < playerNameTexts.Length; i++)
@@ -36,30 +40,11 @@ public class LobbyMenu : NetworkBehaviour
             playerNameTexts[i].text = "Waiting For Player...";
         }
 
-        if (players.Count >= 2)
+        if (players.Count >= 1)
             startGameButton.interactable = true;
     }
 
-    public void StartGame()
-    {
-        
-        NetworkManager.singleton.ServerChangeScene("GameScene");
-    }
-
-    public void LeaveLobby()
-    {
-        if (NetworkServer.active && NetworkClient.isConnected)
-        {
-            NetworkManager.singleton.StopHost();
-        }
-        else
-        {
-            NetworkManager.singleton.StopClient();
-            
-
-        }
-    }
-
+    public void StartGame() => NetworkManager.singleton.ServerChangeScene("GameScene");
 
     public void StartClient() => NetworkManager.singleton.StartClient();
 

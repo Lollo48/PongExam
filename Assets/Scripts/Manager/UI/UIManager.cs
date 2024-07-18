@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
+using Mirror;
 
 public class UIManager : MonoBehaviour
 {
 
     [SerializeField] private TextMeshProUGUI _timer;
     [SerializeField] private TextMeshProUGUI[] _scoreText = new TextMeshProUGUI[2];
+
+    [SerializeField] private GameObject _turnBackToMainMenu;
+    [SerializeField] private TextMeshProUGUI _winnerTest;
+    [SerializeField] private Button _TurnBack;
 
     private void Awake()
     {
@@ -20,11 +25,16 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        _turnBackToMainMenu.SetActive(false);
+
         OnPreGameStarted.OnPreGameUpdate += UpdateTimerText;
         OnPreGameStarted.OnPreGameEnd += DisableTimerText;
         OnPreGameStarted.OnPreGameStart += EnableTimerText;
 
         ScoreManager.OnScoreUpdated += UpdateScore;
+        ScoreManager.OnSetWinner += SetWinner;
+
+        _TurnBack.onClick.AddListener(((PongNetworkManager)NetworkManager.singleton).RestartLobby);
     }
 
     private void OnDisable()
@@ -34,6 +44,9 @@ public class UIManager : MonoBehaviour
         OnPreGameStarted.OnPreGameStart -= EnableTimerText;
 
         ScoreManager.OnScoreUpdated -= UpdateScore;
+        ScoreManager.OnSetWinner -= SetWinner;
+
+        _TurnBack.onClick.RemoveAllListeners();
     }
 
 
@@ -47,6 +60,14 @@ public class UIManager : MonoBehaviour
     {
         _scoreText[0].text = Left.ToString();
         _scoreText[1].text = Right.ToString();
+    }
+
+
+    private void SetWinner(int winner,int a)
+    {
+        _turnBackToMainMenu.SetActive(true);
+        _winnerTest.text = ($"Player {winner } win !");
+
     }
 
 

@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    public FlowGameManager flowGame { get; private set; }
+
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        flowGame = FindObjectOfType<FlowGameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
