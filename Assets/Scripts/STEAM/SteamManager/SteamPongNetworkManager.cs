@@ -10,9 +10,19 @@ public class SteamPongNetworkManager : NetworkManager
 {
     [HideInInspector] public List<SteamPongPlayer> CurrentPlayers;
 
-    private static event Action<List<LobbyData>> OnLobbyesFound;
-    private static event Action OnLobbyesNotFound;
+    GameObject ball;
 
+    public static event Action<List<LobbyData>> OnLobbyesFound;
+    public static event Action OnLobbyesNotFound;
+
+    public static event Action OnGameCanStart;
+    public static Action<bool> OnServerDisconnected;
+
+
+    private void OnEnable()
+    {
+        OnGameStarted.OnGameStart += BallSpawn;
+    }
     public override void OnStartServer()
     {
         CurrentPlayers = new List<SteamPongPlayer>();
@@ -26,8 +36,11 @@ public class SteamPongNetworkManager : NetworkManager
         SteamPongPlayer player = conn.identity.GetComponent<SteamPongPlayer>();
         CurrentPlayers.Add(player);
 
+        player.CmdUpdateName();
 
-        Debug.Log(conn.identity.netId);
+        //if (CurrentPlayers.Count >= 2)
+            OnGameCanStart?.Invoke();
+        //Debug.Log(conn.identity.netId);
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
@@ -36,6 +49,9 @@ public class SteamPongNetworkManager : NetworkManager
         SteamPongPlayer player = conn.identity.GetComponent<SteamPongPlayer>();
         CurrentPlayers.Remove(player);
 
+        //OnServerDisconnected?.Invoke(true);
+
+
         base.OnServerDisconnect(conn);
     }
 
@@ -43,7 +59,7 @@ public class SteamPongNetworkManager : NetworkManager
     public void HostLobby()
     {
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, maxConnections);
-        
+        //Debug.Log("LOBBY CREATA");
     }
 
 
@@ -75,18 +91,34 @@ public class SteamPongNetworkManager : NetworkManager
     }
 
 
-
-}
-
-
-public struct LobbyData
-{
-    private CSteamID CSteamID;
-    private string _lobbyName;
-
-    public LobbyData(CSteamID cSteamID, string lobbyName)
+    #region Ball 
+    [Server]
+    private void BallSpawn()
     {
-        CSteamID = cSteamID;
-        _lobbyName = lobbyName;
+        ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball"));
+        NetworkServer.Spawn(ball);
     }
+
+    public void DestroyBall() => Destroy(ball);
+
+
+    [Server]
+    public void ResetBallPosition()
+    {
+        ball.SetActive(false);
+        ball.transform.position = new Vector3(0f, BallRandomPosition(), 0f);
+        ball.SetActive(true);
+    }
+
+
+    private float BallRandomPosition()
+    {
+        float c = 0;
+        return c = UnityEngine.Random.Range(-7, 9);
+    }
+
+    #endregion
+
 }
+
+

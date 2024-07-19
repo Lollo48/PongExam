@@ -9,6 +9,8 @@ public class SteamLobbyManager : MonoBehaviour
 {
     private const string _HostAddresKey = "HostAddress";
 
+    public static CSteamID LobbyID;
+
     public static event Action<LobbyCreated_t> OnLobbyCreated;
     public static event Action<LobbyEnter_t> OnLobbyEntered;
     public static event Action<GameLobbyJoinRequested_t> OnGameLobbyJoinRequested;
@@ -32,11 +34,12 @@ public class SteamLobbyManager : MonoBehaviour
     // QUANDO ANDRò A CHIAMARE IL METODO CREATE LOBBY DI STEAMMATCHMAKING CALL BACK SU QUESTO
     private void LobbyCreated(LobbyCreated_t Callback)
     {
-
         if (Callback.m_eResult != EResult.k_EResultOK) return;
 
         NetworkManager.singleton.StartHost();
         SteamMatchmaking.SetLobbyData(new CSteamID(Callback.m_ulSteamIDLobby), _HostAddresKey, SteamUser.GetSteamID().ToString());
+
+        LobbyID = new CSteamID(Callback.m_ulSteamIDLobby);
 
         OnLobbyCreated?.Invoke(Callback);
     }
@@ -51,6 +54,7 @@ public class SteamLobbyManager : MonoBehaviour
         NetworkManager.singleton.networkAddress = hostAddress;
         NetworkManager.singleton.StartClient();
 
+        
         OnLobbyEntered?.Invoke(Callback);
 
     }
@@ -63,4 +67,22 @@ public class SteamLobbyManager : MonoBehaviour
 
         OnGameLobbyJoinRequested?.Invoke(Callback);
     }
+
+
+    public static List<CSteamID> GetAllPlayerInLobby()
+    {
+        List<CSteamID> CSteamIDs = new List<CSteamID>();
+        int members = SteamMatchmaking.GetNumLobbyMembers(LobbyID);
+
+        for (int i = 0; i < members; i++)
+        {
+            CSteamID playerID = SteamMatchmaking.GetLobbyMemberByIndex(LobbyID, i);
+            CSteamIDs.Add(playerID);
+        }
+
+        Debug.Log(CSteamIDs.Count);
+        return CSteamIDs;
+    }
+
+
 }

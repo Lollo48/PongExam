@@ -103,7 +103,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _speed: 20
+  _speed: 17
 --- !u!135 &8490602662692407938
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -14,7 +14,6 @@ public class PongBall : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
 
-        
     }
 
     private void OnEnable()
@@ -41,11 +40,11 @@ public class PongBall : NetworkBehaviour
 
             //((PongNetworkManager)NetworkManager.singleton).DestroyBall();
 
-            ((PongNetworkManager)NetworkManager.singleton).ResetBallPosition();
+            ((SteamPongNetworkManager)NetworkManager.singleton).ResetBallPosition();
         }
         
 
-        if (col.transform.GetComponent<PongPlayer>())
+        if (col.transform.GetComponent<SteamPongPlayer>())
         {
             _cachedSpeed += 3f;
             // Calculate y direction via hit Factor

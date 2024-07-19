@@ -39,17 +39,17 @@ public class ScoreManager : NetworkBehaviour
         if (goalPosition == FootballGoalPosition.left) _leftScore++;
         else _rightScore++;
 
-        if (_leftScore == 10)
+        if (_leftScore == 1)
         {
             _winner = 2;
             GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
-            ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
+            ((SteamPongNetworkManager)NetworkManager.singleton).DestroyBall();
         }
-        else if (_rightScore == 10)
+        else if (_rightScore == 1)
         {
             _winner = 1;
             GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameFinished);
-            ((PongNetworkManager)NetworkManager.singleton).DestroyBall();
+            ((SteamPongNetworkManager)NetworkManager.singleton).DestroyBall();
         }
         else GameManager.Instance.flowGame.FlowGame.ChangeState(GameManager.Instance.flowGame.FlowGame.Contex.OnGameStarted);
 

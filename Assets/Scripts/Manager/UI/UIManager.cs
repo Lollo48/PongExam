@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         ScoreManager.OnScoreUpdated += UpdateScore;
         ScoreManager.OnSetWinner += SetWinner;
 
-        _TurnBack.onClick.AddListener(((PongNetworkManager)NetworkManager.singleton).RestartLobby);
+        _TurnBack.onClick.AddListener(ChangeScene);
     }
 
     private void OnDisable()
@@ -70,5 +70,9 @@ public class UIManager : MonoBehaviour
 
     }
 
+    private void ChangeScene()
+    {
 
+        Application.Quit();
+    }
 }
