@@ -70,9 +70,12 @@ public class UIManager : MonoBehaviour
 
     }
 
+
+    //Fix temporaneo non ho la possibilità di testare con qualcuno la fine del livello in questo momento (con la build senza steam funziona)
     private void ChangeScene()
     {
 
-        Application.Quit();
+        if (NetworkServer.active && NetworkClient.isConnected) ((SteamPongNetworkManager)NetworkManager.singleton).StopHost();
+        else ((SteamPongNetworkManager)NetworkManager.singleton).StopClient();
     }
 }
