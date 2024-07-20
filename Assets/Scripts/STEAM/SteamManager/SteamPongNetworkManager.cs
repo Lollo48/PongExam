@@ -38,7 +38,7 @@ public class SteamPongNetworkManager : NetworkManager
 
         player.CmdUpdateName();
 
-        //if (CurrentPlayers.Count >= 2)
+        if (CurrentPlayers.Count >= 2)
             OnGameCanStart?.Invoke();
         //Debug.Log(conn.identity.netId);
     }

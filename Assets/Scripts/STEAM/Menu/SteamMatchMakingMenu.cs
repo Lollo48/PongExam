@@ -35,6 +35,8 @@ public class SteamMatchMakingMenu : MonoBehaviour
         SteamPongPlayer.OnUpdateInformation -= UpdatePlayerName;
     }
 
+
+    //NON FUNZIONA L'AGGIORNAMENTO DEI NOMI IN LOBBY
     private void UpdatePlayerName()
     {
         List<CSteamID> CSteamIDs = SteamLobbyManager.GetAllPlayerInLobby();

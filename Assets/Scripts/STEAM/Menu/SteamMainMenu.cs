@@ -40,6 +40,7 @@ public class SteamMainMenu : MonoBehaviour
     private void JoinButton()
     {
         ((SteamPongNetworkManager)NetworkManager.singleton).SearchLobby();
+
         _menuManager.MainMenuPanel(false);
         _menuManager.LobbyMenuPanel(true); 
 
